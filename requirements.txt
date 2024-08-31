@@ -1,0 +1,10 @@
+# Streamlit y dependencias
+streamlit==1.37.1
+streamlit-option-menu==0.3.13
+pandas==2.2.2
+openpyxl==3.1.5
+requests==2.32.3
+
+# FastAPI y dependencias
+fastapi==0.112.2
+uvicorn==0.30.6
