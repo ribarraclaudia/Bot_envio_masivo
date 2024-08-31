@@ -48,7 +48,7 @@ Asegúrate de tener los siguientes paquetes instalados:
    pip install -r requirements.txt
     ```
 
-## InstalaciónEjecutar la Aplicación
+## Ejecutar la Aplicación
 
 1. **Interfaz de Usuario (Streamlit):**
 
