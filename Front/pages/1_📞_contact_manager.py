@@ -19,14 +19,14 @@ selected = option_menu(
 
 archivo_excel = os.path.join('pages', 'resources', 'contacts.xlsx')
 
-if not os.path.exists(archivo_excel):
-    df_dummy = pd.DataFrame({
-        'Nombre': ['Juan Perez', 'Maria Garcia', 'Carlos Lopez'],
-        'Número': ['555-1234', '555-5678', '555-8765'],
-        'Etiqueta': ['Nuevos', 'Ventas', 'Baneados'],
-        'Seleccionado': ['SI', 'NO', 'NO'],
-    })
-    df_dummy.to_excel(archivo_excel, index=False)
+# if not os.path.exists(archivo_excel):
+#     df_dummy = pd.DataFrame({
+#         'Nombre': ['Juan Perez', 'Maria Garcia', 'Carlos Lopez'],
+#         'Número': ['555-1234', '555-5678', '555-8765'],
+#         'Etiqueta': ['Nuevos', 'Ventas', 'Baneados'],
+#         'Seleccionado': ['SI', 'NO', 'NO'],
+#     })
+#     df_dummy.to_excel(archivo_excel, index=False)
 
 def cargar_contactos(archivo_excel):
     return pd.read_excel(archivo_excel)
@@ -55,12 +55,25 @@ def marcar_como_seleccionado(filtrar_por=None):
     actualizar_dataframe(df)
     st.success("Todos los contactos han sido marcados como seleccionados.")
 
+def marcar_como_NO_seleccionado(filtrar_por=None):
+    df = st.session_state.df_contactos.copy()
+    if filtrar_por:
+        df.loc[df['Etiqueta'] == filtrar_por, 'Seleccionado'] = 'NO'
+    else:
+        df['Seleccionado'] = 'NO'
+    actualizar_dataframe(df)
+    st.success("Todos los contactos han sido deseleccionados.")
+
 def mostrar_contactos(filtrar_por=None):
     df = st.session_state.df_contactos.copy()
 
     if filtrar_por:
         if st.button(f"Marcar todos los '{filtrar_por}' como seleccionados"):
             marcar_como_seleccionado(filtrar_por)
+            df = st.session_state.df_contactos.copy()
+
+        if st.button(f"Marcar todos los '{filtrar_por}' como No seleccionados"):
+            marcar_como_NO_seleccionado(filtrar_por)
             df = st.session_state.df_contactos.copy()
 
         df_filtrado = df[df['Etiqueta'] == filtrar_por]
@@ -75,6 +88,10 @@ def mostrar_contactos(filtrar_por=None):
     else:
         if st.button(f"Marcar todos como seleccionados"):
             marcar_como_seleccionado()
+            df = st.session_state.df_contactos.copy()
+
+        if st.button(f"Marcar todos como NO seleccionados"):
+            marcar_como_NO_seleccionado()
             df = st.session_state.df_contactos.copy()
 
         st.title(f"{selected} los contactos")
