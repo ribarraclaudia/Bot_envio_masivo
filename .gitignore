@@ -1,1 +1,5 @@
+# Ambientes
 .bot/
+
+#Caché
+__pycache__/

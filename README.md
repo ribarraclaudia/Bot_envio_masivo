@@ -13,10 +13,11 @@ bot_whatsapp
 │   ├── pages
 │   │   ├── resources
 │   │   │   ├── contacts.xlsx
-│   │   │   └── contador_mensajes.csv
+│   │   │   ├── contador_mensajes.csv
+│   │   │   └── mensajes_predefinidos.xlsx
 │   │   ├── 1_📞_contact_manager.py
 │   │   └── 2_✉️_message_manager.py
-│   └── homepage.py
+│   ├── homepage.py
 ├── .gitignore
 ├── README.md
 └── requirements.txt
