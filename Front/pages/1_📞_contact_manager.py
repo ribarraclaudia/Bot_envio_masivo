@@ -8,17 +8,9 @@ st.set_page_config(
     page_icon="📞",
 )
 
-selected = option_menu(
-    menu_title=None,
-    options=["Todos", "Nuevos", "Ventas", "Baneados"],
-    icons=["collection", "clipboard2-plus", "basket2", "cone-striped"],
-    menu_icon="cast",
-    default_index=0,
-    orientation="horizontal",
-)
 
 archivo_excel = os.path.join('pages', 'resources', 'contacts.xlsx')
-
+archivo_etiquetas_excel = os.path.join('pages', 'resources', 'etiquetas.xlsx')
 # if not os.path.exists(archivo_excel):
 #     df_dummy = pd.DataFrame({
 #         'Nombre': ['Juan Perez', 'Maria Garcia', 'Carlos Lopez'],
@@ -28,6 +20,18 @@ archivo_excel = os.path.join('pages', 'resources', 'contacts.xlsx')
 #     })
 #     df_dummy.to_excel(archivo_excel, index=False)
 
+# # Si no existe el archivo de etiquetas, creamos uno con etiquetas de ejemplo
+# if not os.path.exists(archivo_etiquetas_excel):
+#     etiquetas_dummy = pd.DataFrame({
+#         'Etiqueta': ['Nuevos', 'Ventas', 'Baneados']
+#     })
+#     etiquetas_dummy.to_excel(archivo_etiquetas_excel, index=False)
+
+# Función para cargar etiquetas desde un archivo excel
+def cargar_etiquetas(archivo_etiquetas_excel):
+    df_etiquetas = pd.read_excel(archivo_etiquetas_excel)
+    return df_etiquetas['Etiqueta'].tolist()
+
 def cargar_contactos(archivo_excel):
     return pd.read_excel(archivo_excel)
 
@@ -35,9 +39,20 @@ def guardar_contactos(df, archivo_excel):
     df.to_excel(archivo_excel, index=False)
 
 # Definir las etiquetas disponibles
-etiquetas = ["Nuevos", "Ventas", "Baneados"]
+etiquetas =  ["Todos"] + cargar_etiquetas(archivo_etiquetas_excel)
 seleccionado = ["SI", "NO"]
 
+# Definir los íconos para cada opción, asignando un ícono especial para "Todos" y el resto usando el mismo ícono
+iconos = ["collection"] + ["tag"] * (len(etiquetas) - 1)
+
+selected = option_menu(
+    menu_title=None,
+    options=etiquetas,
+    icons=iconos,  # Aquí se aplican los íconos a las etiquetas
+    menu_icon="cast",
+    default_index=0,
+    orientation="horizontal",
+)
 # Cargar los contactos y almacenarlos en el estado de la sesión
 if "df_contactos" not in st.session_state:
     st.session_state.df_contactos = cargar_contactos(archivo_excel)
